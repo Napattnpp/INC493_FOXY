@@ -46,7 +46,7 @@
 #include "vesc_driver/vesc_interface.hpp"
 #include "vesc_driver/vesc_packet.hpp"
 //Added by BP
-//#include <sensor_msgs/msg/joy.hpp>
+#include <sensor_msgs/msg/joy.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 
 
@@ -73,9 +73,11 @@ private:
   //subscribe cmd_vel by BP
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
   void cmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
+
   //subscribe joy by BP
-  //rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
-  //void joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy);
+  rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
+  void joyCallback(const sensor_msgs::msg::Joy::SharedPtr joy);
+
   //Publish motor_speed_pub
   rclcpp::Publisher<Float64>::SharedPtr motor_speed_pub_;
   rclcpp::Publisher<Float64>::SharedPtr servo_angle_pub_;
@@ -138,7 +140,7 @@ private:
   void positionCallback(const Float64::SharedPtr position);
   void servoCallback(const Float64::SharedPtr servo);
   void speedCallback(const Float64::SharedPtr speed);
-  /**Added by BP
+  /* Added by BP
   void servoCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
   void speedCallback(const geometry_msgs::msg::Twist::SharedPtr msg);
   */
