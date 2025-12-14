@@ -67,7 +67,7 @@ private:
   rclcpp::Time last_state_time_;
 
   // publish the subscribe yaw and xvel
-  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr yaw_publisher_;
+  // rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr yaw_publisher_;
   //rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr speed_publisher_;
 
 
