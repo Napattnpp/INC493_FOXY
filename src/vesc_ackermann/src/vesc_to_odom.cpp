@@ -51,6 +51,10 @@ VescToOdom::VescToOdom(const rclcpp::NodeOptions & options)
   servo_angle_subscriber_ = this->create_subscription<Float64>(
       "servo_angle", 10, std::bind(&VescToOdom::servoAngleCallback, this, _1));
 
+  // Napat: Subscribe to the yaw
+  yaw_sub_ = this->create_subscription<Float64>(
+      "yaw", 10, std::bind(&VescToOdom::yawCallback, this, _1));
+
   // Set the update rate to 10 Hz (0.1 seconds)
   update_timer_ = create_wall_timer(std::chrono::milliseconds(100), std::bind(&VescToOdom::updateCallback, this));
 }
@@ -75,6 +79,12 @@ void VescToOdom::servoAngleCallback(const Float64::SharedPtr msg)
   servo_angle_ =  map(read_angle_, 65.0, 67.0, -40.0/180.0*M_PI, 40.0/180.0*M_PI);
 }
 
+// Napat: yaw callback
+void VescToOdom::yawCallback(const Float64::SharedPtr msg) {
+  double read_yaw_ = msg->data;
+  yaw = read_yaw_;
+}
+
 void VescToOdom::updateCallback()
 {
   // This function is called every 0.1 seconds, update your odometry here
@@ -97,6 +107,7 @@ void VescToOdom::updateCallback()
   // Position
   odom.pose.pose.position.x = x_;
   odom.pose.pose.position.y = y_;
+
   //For a rotation purely around the z-axis (common in 2D navigation)
   odom.pose.pose.orientation.x = 0.0;
   odom.pose.pose.orientation.y = 0.0;
@@ -125,6 +136,10 @@ void VescToOdom::updateCallback()
 
   if (rclcpp::ok()) {
     odom_pub_->publish(odom);
+  }
+
+  if (rclcpp::ok()) {
+    yaw_publisher_->publish(yaw);
   }
 
   // Path update

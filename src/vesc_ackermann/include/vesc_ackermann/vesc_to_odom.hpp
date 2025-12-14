@@ -42,34 +42,40 @@ private:
   double motor_speed_; // Initialize to a default value
   double servo_angle_;
 
+  // Napat
+  double yaw;
+
   // Current angular velocity from IMU
-  //double current_angular_velocity; 
+  // double current_angular_velocity;
   
   // ROS services
   rclcpp::Publisher<Odometry>::SharedPtr odom_pub_;
   std::shared_ptr<tf2_ros::TransformBroadcaster> tf_pub_;
+
   //BP
-  //rclcpp::Subscription<Float64>::SharedPtr yaw_sub_;
+  rclcpp::Subscription<Float64>::SharedPtr yaw_sub_;
   //rclcpp::Subscription<Float64>::SharedPtr speed_sub_;
   //rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_sub_;
   rclcpp::Subscription<Float64>::SharedPtr motor_speed_subscriber_;
   rclcpp::Subscription<Float64>::SharedPtr servo_angle_subscriber_ ;
+
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_pub_;
 
 
   // Time
   rclcpp::TimerBase::SharedPtr update_timer_;
   rclcpp::Time last_state_time_;
+
   // publish the subscribe yaw and xvel
-  //rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr yaw_publisher_;
+  rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr yaw_publisher_;
   //rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr speed_publisher_;
 
 
   // ROS callbacks
   void updateCallback();
-  //void yawCallback(const Float64::SharedPtr msg);
-  //void imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg);
+  void yawCallback(const Float64::SharedPtr msg);
   //void speedCallback(const Float64::SharedPtr msg);
+  //void imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg);
   void motorSpeedCallback(const Float64::SharedPtr msg);
   void servoAngleCallback(const Float64::SharedPtr msg);
 };
