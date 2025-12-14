@@ -138,10 +138,6 @@ void VescToOdom::updateCallback()
     odom_pub_->publish(odom);
   }
 
-  if (rclcpp::ok()) {
-    yaw_publisher_->publish(yaw);
-  }
-
   // Path update
   nav_msgs::msg::Path path;
   path.header.stamp = this->get_clock()->now();
