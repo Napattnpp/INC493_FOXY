@@ -148,7 +148,7 @@ void VescToOdom::updateCallback()
   new_pose.pose = odom.pose.pose; 
 
   path_msg_.poses.push_back(new_pose);
-  path_pub_->publish(path);
+  path_pub_->publish(path_msg_);
 }
 
 }  // namespace vesc_ackermann
