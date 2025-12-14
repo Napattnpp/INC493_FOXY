@@ -43,7 +43,7 @@ private:
   double servo_angle_;
 
   // Napat
-  double yaw;
+  // double yaw;
 
   // Current angular velocity from IMU
   // double current_angular_velocity;
@@ -53,7 +53,7 @@ private:
   std::shared_ptr<tf2_ros::TransformBroadcaster> tf_pub_;
 
   //BP
-  rclcpp::Subscription<Float64>::SharedPtr yaw_sub_;
+  // rclcpp::Subscription<Float64>::SharedPtr yaw_sub_;
   //rclcpp::Subscription<Float64>::SharedPtr speed_sub_;
   //rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_sub_;
   rclcpp::Subscription<Float64>::SharedPtr motor_speed_subscriber_;
@@ -73,7 +73,7 @@ private:
 
   // ROS callbacks
   void updateCallback();
-  void yawCallback(const Float64::SharedPtr msg);
+  // void yawCallback(const Float64::SharedPtr msg);
   //void speedCallback(const Float64::SharedPtr msg);
   //void imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg);
   void motorSpeedCallback(const Float64::SharedPtr msg);

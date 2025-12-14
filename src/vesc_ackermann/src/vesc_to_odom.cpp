@@ -52,8 +52,8 @@ VescToOdom::VescToOdom(const rclcpp::NodeOptions & options)
       "servo_angle", 10, std::bind(&VescToOdom::servoAngleCallback, this, _1));
 
   // Napat: Subscribe to the yaw
-  yaw_sub_ = this->create_subscription<Float64>(
-      "yaw", 10, std::bind(&VescToOdom::yawCallback, this, _1));
+  // yaw_sub_ = this->create_subscription<Float64>(
+  //     "yaw", 10, std::bind(&VescToOdom::yawCallback, this, _1));
 
   // Set the update rate to 10 Hz (0.1 seconds)
   update_timer_ = create_wall_timer(std::chrono::milliseconds(100), std::bind(&VescToOdom::updateCallback, this));
@@ -80,10 +80,10 @@ void VescToOdom::servoAngleCallback(const Float64::SharedPtr msg)
 }
 
 // Napat: yaw callback
-void VescToOdom::yawCallback(const Float64::SharedPtr msg) {
-  double read_yaw_ = msg->data;
-  yaw = read_yaw_;
-}
+// void VescToOdom::yawCallback(const Float64::SharedPtr msg) {
+//   double read_yaw_ = msg->data;
+//   yaw = read_yaw_;
+// }
 
 void VescToOdom::updateCallback()
 {
