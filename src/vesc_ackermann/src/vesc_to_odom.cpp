@@ -4,7 +4,6 @@
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <rclcpp/time.hpp>
 #include <sensor_msgs/msg/imu.hpp>
-#include <cmath>
 
 namespace vesc_ackermann
 {
@@ -88,13 +87,14 @@ void VescToOdom::yawCallback(const Float64::SharedPtr msg) {
 void VescToOdom::updateCallback()
 {
   // This function is called every 0.1 seconds, update your odometry here
-  
+
+  double theta_dot = motor_speed_ / wheelbase_ * tan(servo_angle_);
+  double dt = 0.1; // Set sampling time to 0.1 sec
+  // theta_ += theta_dot * dt;
+
   // Propagate odometry
   double x_dot = motor_speed_ * cos(theta_);
   double y_dot = motor_speed_ * sin(theta_);
-  double theta_dot = motor_speed_ / wheelbase_ * tan(servo_angle_);
-  double dt = 0.1; // Set sampling time to 0.1 sec
-  theta_ += theta_dot * dt;
   x_ += x_dot * dt;
   y_ += y_dot * dt;
 
@@ -139,14 +139,15 @@ void VescToOdom::updateCallback()
   }
 
   // Path update
-  nav_msgs::msg::Path path;
-  path.header.stamp = this->get_clock()->now();
-  path.header.frame_id = "odom";  
+  path_msg_.header.stamp = this->get_clock()->now();
+  path_msg_.header.frame_id = odom_frame_;
+
   geometry_msgs::msg::PoseStamped new_pose;
-  new_pose.header.stamp = path.header.stamp;
-  new_pose.header.frame_id = path.header.frame_id;  
+  new_pose.header.stamp = path_msg_.header.stamp;
+  new_pose.header.frame_id = path_msg_.header.frame_id;  
   new_pose.pose = odom.pose.pose; 
-  path.poses.push_back(new_pose);
+
+  path_msg_.poses.push_back(new_pose);
   path_pub_->publish(path);
 }
 

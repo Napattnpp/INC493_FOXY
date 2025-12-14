@@ -58,6 +58,9 @@ private:
 
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_pub_;
 
+  // Napat: Path msg
+  nav_msgs::msg::Path path_msg_;
+
 
   // Time
   rclcpp::TimerBase::SharedPtr update_timer_;
